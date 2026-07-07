@@ -3,6 +3,9 @@
 
 /* This testbench just instantiates the module and makes some convenient wires
    that can be driven / tested by the cocotb test.py.
+
+   The external loopback (uo_out[0] -> ui_in[7]) is modeled in test.py, which
+   re-drives ui_in on every falling clock edge.
 */
 module tb ();
 
@@ -27,8 +30,7 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
-  // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  tt_um_vvelikanov_prbs_bert user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST

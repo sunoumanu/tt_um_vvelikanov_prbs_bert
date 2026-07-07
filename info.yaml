@@ -1,56 +1,48 @@
 # Tiny Tapeout project information
 project:
-  title:        ""      # Project title
-  author:       ""      # Your name
-  discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  ""      # One line description of what your project does
-  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
+  title:        "PRBS Generator + BER Tester"
+  author:       "Vladimir Velikanov"
+  discord:      ""
+  description:  "Selectable PRBS-7/15/31 generator with self-synchronizing BER checker, sync-loss detector and programmable error injector"
+  language:     "Verilog"
+  clock_hz:     10000000   # any; one PRBS bit per clock
 
-  # How many tiles your design occupies? A single tile is about 167x108 uM.
-  tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
+  tiles: "1x1"
 
-  # Your top module name must start with "tt_um_". Make it unique by including your github username:
-  top_module:  "tt_um_example"
+  top_module: "tt_um_vvelikanov_prbs_bert"
 
-  # List your project's source files here.
-  # Source files must be in ./src and you must list each source file separately, one per line.
-  # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
     - "project.v"
 
-# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
-# This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
   # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  ui[0]: "prbs_sel[0] (00=PRBS-7, 01=PRBS-15, 1x=PRBS-31)"
+  ui[1]: "prbs_sel[1]"
+  ui[2]: "inject single error (rising edge)"
+  ui[3]: "periodic error injection enable"
+  ui[4]: "injection rate (0: every 512 bits, 1: every 8192 bits)"
+  ui[5]: "clear error counter + sticky sync-loss flag"
+  ui[6]: "counter byte select (0: bits 7:0, 1: bits 15:8)"
+  ui[7]: "rx serial input (loop back from uo[0])"
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
+  uo[0]: "tx PRBS serial output"
+  uo[1]: "sync (checker locked)"
+  uo[2]: "error pulse (gated by sync)"
+  uo[3]: "sync lost (sticky)"
+  uo[4]: "injection pulse"
+  uo[5]: "rx echo (registered rx input)"
   uo[6]: ""
   uo[7]: ""
 
-  # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
+  # Bidirectional pins (all outputs)
+  uio[0]: "error counter bit 0/8"
+  uio[1]: "error counter bit 1/9"
+  uio[2]: "error counter bit 2/10"
+  uio[3]: "error counter bit 3/11"
+  uio[4]: "error counter bit 4/12"
+  uio[5]: "error counter bit 5/13"
+  uio[6]: "error counter bit 6/14"
+  uio[7]: "error counter bit 7/15"
 
-# Do not change!
 yaml_version: 6
